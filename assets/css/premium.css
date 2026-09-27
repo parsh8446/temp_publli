@@ -1,0 +1,394 @@
+/* ==========================================================================
+   PREMIUM THEME STYLES
+   Google AdSense Policy Compliant | Publii CMS
+   ========================================================================== */
+
+/* Reading Progress Bar
+   ========================================================================== */
+.reading-progress {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 0%;
+   height: 3px;
+   background: var(--color);
+   z-index: 9999;
+   transition: width 0.1s linear;
+   border-radius: 0 2px 2px 0;
+}
+
+/* Feed Wrapper: Main + Sidebar Layout
+   ========================================================================== */
+.feed-wrapper {
+   display: grid;
+   grid-template-columns: 1fr;
+   gap: calc(var(--baseline) * 12);
+   max-width: var(--page-width);
+   margin: 0 auto;
+   padding: calc(var(--baseline) * 10) var(--page-margin);
+}
+
+@media (min-width: 64em) {
+   .feed-wrapper {
+      grid-template-columns: 1fr 300px;
+      align-items: start;
+   }
+}
+
+/* Featured Post Hero
+   ========================================================================== */
+.feed__featured {
+   display: grid;
+   grid-template-columns: 1fr;
+   gap: calc(var(--baseline) * 6);
+   margin-bottom: calc(var(--baseline) * 12);
+   border-bottom: 1px solid var(--light);
+   padding-bottom: calc(var(--baseline) * 12);
+}
+
+@media (min-width: 48em) {
+   .feed__featured {
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+   }
+}
+
+.feed__featured-image {
+   margin: 0;
+   border-radius: var(--border-radius);
+   overflow: hidden;
+   aspect-ratio: 16 / 9;
+}
+
+.feed__featured-image a {
+   display: block;
+   height: 100%;
+}
+
+.feed__featured-image img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   transition: transform 0.4s ease;
+}
+
+.feed__featured-image:hover img {
+   transform: scale(1.03);
+}
+
+.feed__featured-content {
+   display: flex;
+   flex-direction: column;
+   gap: calc(var(--baseline) * 4);
+}
+
+.feed__featured-title {
+   font-size: clamp(1.4rem, 3vw, 2rem);
+   line-height: var(--headings-line-height);
+   margin: 0;
+}
+
+.feed__featured-title a {
+   color: var(--headings-color);
+   text-decoration: none;
+   transition: color 0.2s ease;
+}
+
+.feed__featured-title a:hover {
+   color: var(--color);
+}
+
+/* Post Grid
+   ========================================================================== */
+.feed--grid {
+   display: grid;
+   grid-template-columns: 1fr;
+   gap: calc(var(--baseline) * 10);
+}
+
+@media (min-width: 36em) {
+   .feed--grid {
+      grid-template-columns: repeat(2, 1fr);
+   }
+}
+
+@media (min-width: 64em) {
+   .feed--grid {
+      grid-template-columns: repeat(3, 1fr);
+   }
+}
+
+.feed--grid .feed__item {
+   display: flex;
+   flex-direction: column;
+   border: 1px solid var(--light);
+   border-radius: var(--border-radius);
+   overflow: hidden;
+   transition: box-shadow 0.3s ease, transform 0.3s ease;
+   background: var(--page-bg);
+}
+
+.feed--grid .feed__item:hover {
+   box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+   transform: translateY(-3px);
+}
+
+.feed--grid .feed__image {
+   margin: 0;
+   aspect-ratio: 16 / 9;
+   overflow: hidden;
+}
+
+.feed--grid .feed__image a {
+   display: block;
+   height: 100%;
+}
+
+.feed--grid .feed__image img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   transition: transform 0.4s ease;
+}
+
+.feed--grid .feed__item:hover .feed__image img {
+   transform: scale(1.05);
+}
+
+.feed--grid .feed__content {
+   padding: calc(var(--baseline) * 5);
+   display: flex;
+   flex-direction: column;
+   gap: calc(var(--baseline) * 3);
+   flex: 1;
+}
+
+/* Tag Badges
+   ========================================================================== */
+.feed__tags {
+   display: flex;
+   flex-wrap: wrap;
+   gap: calc(var(--baseline) * 2);
+   margin-bottom: calc(var(--baseline) * 2);
+}
+
+.feed__tag-badge {
+   display: inline-block;
+   padding: calc(var(--baseline) * 1) calc(var(--baseline) * 3);
+   background: var(--color);
+   color: #fff;
+   font-size: 0.72em;
+   font-weight: 600;
+   text-transform: uppercase;
+   letter-spacing: 0.05em;
+   border-radius: 100px;
+   text-decoration: none;
+   transition: background 0.2s ease, opacity 0.2s ease;
+   line-height: 1.4;
+}
+
+.feed__tag-badge:hover {
+   opacity: 0.85;
+   color: #fff;
+}
+
+.content__tags {
+   margin-bottom: calc(var(--baseline) * 3);
+}
+
+/* Sidebar
+   ========================================================================== */
+.feed-sidebar {
+   display: flex;
+   flex-direction: column;
+   gap: calc(var(--baseline) * 8);
+}
+
+@media (min-width: 64em) {
+   .feed-sidebar {
+      position: sticky;
+      top: calc(var(--navbar-height) + calc(var(--baseline) * 6));
+   }
+}
+
+.sidebar-widget {
+   border: 1px solid var(--light);
+   border-radius: var(--border-radius);
+   overflow: hidden;
+}
+
+.sidebar-widget__title {
+   font-size: 0.85em;
+   font-weight: 700;
+   text-transform: uppercase;
+   letter-spacing: 0.08em;
+   padding: calc(var(--baseline) * 4) calc(var(--baseline) * 5);
+   margin: 0;
+   background: var(--lighter);
+   border-bottom: 1px solid var(--light);
+   color: var(--headings-color);
+}
+
+.sidebar-widget__content {
+   padding: calc(var(--baseline) * 5);
+}
+
+/* AdSense Ad Containers — Google Policy Compliant
+   Label must be visible, ads must not be deceptive
+   ========================================================================== */
+.ad-container {
+   width: 100%;
+   overflow: hidden;
+}
+
+.ad-container--top,
+.ad-container--bottom {
+   background: var(--lighter);
+   border-top: 1px solid var(--light);
+   border-bottom: 1px solid var(--light);
+   padding: calc(var(--baseline) * 4) 0;
+}
+
+.ad-container--infeed {
+   margin: calc(var(--baseline) * 8) 0;
+   padding: calc(var(--baseline) * 4);
+   background: var(--lighter);
+   border-radius: var(--border-radius);
+   border: 1px solid var(--light);
+}
+
+.ad-container--sidebar {
+   border-radius: var(--border-radius);
+   border: 1px solid var(--light);
+   overflow: hidden;
+   background: var(--lighter);
+   padding: calc(var(--baseline) * 3);
+}
+
+.ad-container--mid-content {
+   margin: calc(var(--baseline) * 10) 0;
+}
+
+/* Ad Label — Required by Google AdSense Policy */
+.ad-label {
+   display: block;
+   font-size: 0.65em;
+   font-weight: 600;
+   text-transform: uppercase;
+   letter-spacing: 0.1em;
+   color: var(--gray);
+   text-align: center;
+   margin-bottom: calc(var(--baseline) * 2);
+   opacity: 0.7;
+}
+
+.ad-slot {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   min-height: 50px;
+}
+
+.ad-slot--leaderboard {
+   min-height: 90px;
+}
+
+.ad-slot--sidebar {
+   min-height: 250px;
+}
+
+.ad-slot--infeed {
+   min-height: 90px;
+}
+
+.ad-slot--mid-content {
+   min-height: 90px;
+}
+
+/* Primary Button
+   ========================================================================== */
+.btn--primary {
+   display: inline-block;
+   padding: calc(var(--baseline) * 3) calc(var(--baseline) * 6);
+   background: var(--color);
+   color: #fff !important;
+   border-radius: var(--border-radius);
+   font-weight: 600;
+   text-decoration: none;
+   transition: opacity 0.2s ease, transform 0.2s ease;
+   font-size: 0.9em;
+}
+
+.btn--primary:hover {
+   opacity: 0.88;
+   transform: translateY(-1px);
+   color: #fff !important;
+}
+
+/* Feed Meta Enhancements
+   ========================================================================== */
+.feed__meta--featured {
+   display: flex;
+   align-items: center;
+   flex-wrap: wrap;
+   gap: calc(var(--baseline) * 3);
+}
+
+/* Enhanced Author Bio Card
+   ========================================================================== */
+.bio {
+   display: flex;
+   gap: calc(var(--baseline) * 6);
+   align-items: flex-start;
+   padding: calc(var(--baseline) * 8);
+   background: var(--lighter);
+   border-radius: var(--border-radius);
+   border: 1px solid var(--light);
+   margin-top: calc(var(--baseline) * 8);
+}
+
+.bio__avatar {
+   width: 80px;
+   height: 80px;
+   border-radius: 50%;
+   object-fit: cover;
+   flex-shrink: 0;
+   border: 3px solid var(--color);
+}
+
+.bio__name a {
+   color: var(--headings-color);
+   text-decoration: none;
+}
+
+.bio__name a:hover {
+   color: var(--color);
+}
+
+/* Dark Mode Overrides
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+   .feed--grid .feed__item:hover {
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+   }
+
+   .feed__tag-badge {
+      color: #fff;
+   }
+}
+
+/* Responsive Utilities
+   ========================================================================== */
+@media (max-width: 47.9em) {
+   .feed__featured {
+      grid-template-columns: 1fr;
+   }
+
+   .feed-sidebar {
+      position: static;
+   }
+
+   .ad-slot--sidebar {
+      min-height: 100px;
+   }
+}
