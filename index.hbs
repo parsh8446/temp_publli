@@ -2,28 +2,6 @@
 {{> navbar}}
 <main>
 
-   <div class="hero {{#checkIf @config.custom.uploadHero '&&' @renderer.isFirstPage}}{{else}}hero--noimage{{/checkIf}}">
-      {{#if @config.custom.textHero}}
-         <header class="hero__content {{#checkIf @config.custom.alignHero '==' "center" }}hero__content--centered{{/checkIf}}">
-            <div class="wrapper">
-               {{{@config.custom.textHero}}}
-            </div>
-         </header>
-      {{/if}}
-      {{#if @renderer.isFirstPage}}
-         {{#if @config.custom.uploadHero}}
-            <figure class="hero__image">
-               <div class="hero__image-wrapper">
-                  <img src="{{@config.custom.uploadHero}}" {{#if @config.site.responsiveImages}}{{responsiveImageAttributes @config.custom.uploadHero}}{{/if}} {{ lazyload "eager" }} {{imageDimensions @config.custom.uploadHero}} alt="{{@config.custom.uploadHeroAlt}}">
-               </div>
-               {{#if @config.custom.uploadHeroCaption}}
-                  <figcaption>{{@config.custom.uploadHeroCaption}}</figcaption>
-               {{/if}}
-            </figure>
-         {{/if}}
-      {{/if}}
-   </div>
-
    {{#if @config.custom.adsenseTopBanner}}
    <div class="ad-container ad-container--top" aria-label="Advertisement">
       <div class="wrapper">
@@ -33,123 +11,147 @@
    </div>
    {{/if}}
 
-   <div class="wrapper feed-wrapper">
-      <div class="feed-main">
+   <!-- HERO: First Post Full-Width Overlay -->
+   {{#if @renderer.isFirstPage}}
+   {{#each posts}}
+   {{#if @first}}
+   <a href="{{url}}" class="feed__hero" aria-label="{{title}}">
+      {{#if @config.custom.feedFeaturedImage}}
+         {{#featuredImage}}
+            {{#if url}}
+               <img class="feed__hero-image" src="{{url}}" {{#if @config.site.responsiveImages}}{{responsiveImageAttributes 'featuredImage' srcset.hero sizes.hero}}{{/if}} {{ lazyload "eager" }} height="{{height}}" width="{{width}}" alt="{{alt}}">
+            {{/if}}
+         {{/featuredImage}}
+      {{/if}}
+      <div class="feed__hero-overlay">
+         {{#if tags}}
+         <div>
+            {{#each tags}}
+            <span class="feed__hero-tag">{{name}}</span>
+            {{/each}}
+         </div>
+         {{/if}}
+         <h2 class="feed__hero-title"><span>{{title}}</span></h2>
+         <div class="feed__hero-meta">
+            {{#author}}
+               {{#if @config.custom.feedAuthor}}<span>By <span>{{name}}</span></span>{{/if}}
+            {{/author}}
+            {{#if @config.custom.feedDate}}
+               {{#checkIf @config.custom.feedDateType '==' "published"}}
+                  <span>&bull;</span>
+                  <time datetime="{{date createdAt 'YYYY-MM-DDTHH:mm'}}">{{#checkIf @config.custom.formatDate '!=' 'custom'}}{{date createdAt @config.custom.formatDate}}{{else}}{{date createdAt @config.custom.formatDateCustom}}{{/checkIf}}</time>
+               {{/checkIf}}
+            {{/if}}
+         </div>
+      </div>
+   </a>
+   {{/if}}
+   {{/each}}
+   {{/if}}
 
-         {{#if @renderer.isFirstPage}}
+   <div class="feed-page">
+
+      <!-- GRID: 2nd and 3rd posts as 2-column overlay cards -->
+      {{#if @renderer.isFirstPage}}
+      <div class="feed-grid-top">
          {{#each posts}}
-         {{#if @first}}
-         <article class="feed__featured">
+         {{#checkIf @index '==' 1}}
+         <a href="{{url}}" class="feed__card">
             {{#if @config.custom.feedFeaturedImage}}
                {{#featuredImage}}
                   {{#if url}}
-                     <figure class="feed__featured-image">
-                        <a href="{{../url}}">
-                           <img src="{{url}}" {{#if @config.site.responsiveImages}}{{responsiveImageAttributes 'featuredImage' srcset.feed sizes.feed}}{{/if}} {{ lazyload "eager" }} height="{{height}}" width="{{width}}" alt="{{alt}}">
-                        </a>
-                     </figure>
+                     <img class="feed__card-image" src="{{url}}" {{#if @config.site.responsiveImages}}{{responsiveImageAttributes 'featuredImage' srcset.feed sizes.feed}}{{/if}} {{ lazyload "lazy" }} height="{{height}}" width="{{width}}" alt="{{alt}}">
                   {{/if}}
                {{/featuredImage}}
             {{/if}}
-            <div class="feed__featured-content">
-               {{#if tags}}<div class="feed__tags">{{#each tags}}<a href="{{url}}" class="feed__tag-badge">{{name}}</a>{{/each}}</div>{{/if}}
-               <h2 class="feed__featured-title"><a href="{{url}}">{{title}}</a></h2>
-               {{#if hasCustomExcerpt}}{{{ excerpt }}}{{else}}<p>{{{ excerpt }}}</p>{{/if}}
-               <div class="feed__meta feed__meta--featured">
+            <div class="feed__card-overlay">
+               <h3 class="feed__card-title">{{title}}</h3>
+               <div class="feed__card-meta">
+                  {{#author}}{{#if @config.custom.feedAuthor}}By {{name}}{{/if}}{{/author}}
+               </div>
+            </div>
+         </a>
+         {{/checkIf}}
+         {{#checkIf @index '==' 2}}
+         <a href="{{url}}" class="feed__card">
+            {{#if @config.custom.feedFeaturedImage}}
+               {{#featuredImage}}
+                  {{#if url}}
+                     <img class="feed__card-image" src="{{url}}" {{#if @config.site.responsiveImages}}{{responsiveImageAttributes 'featuredImage' srcset.feed sizes.feed}}{{/if}} {{ lazyload "lazy" }} height="{{height}}" width="{{width}}" alt="{{alt}}">
+                  {{/if}}
+               {{/featuredImage}}
+            {{/if}}
+            <div class="feed__card-overlay">
+               <h3 class="feed__card-title">{{title}}</h3>
+               <div class="feed__card-meta">
+                  {{#author}}{{#if @config.custom.feedAuthor}}By {{name}}{{/if}}{{/author}}
+               </div>
+            </div>
+         </a>
+         {{/checkIf}}
+         {{/each}}
+      </div>
+      {{/if}}
+
+      {{#if @config.custom.adsenseInFeed}}
+      <div class="ad-container ad-container--infeed" aria-label="Advertisement">
+         <span class="ad-label">Advertisement</span>
+         <div class="ad-slot ad-slot--infeed">{{{@config.custom.adsenseInFeed}}}</div>
+      </div>
+      {{/if}}
+
+      <!-- LIST: Remaining posts (index 3+) as image-left list -->
+      <div class="feed-list">
+         {{#each posts}}
+         {{#checkIf @index '>=' 3}}
+         <article class="feed-list__item">
+            {{#if @config.custom.feedFeaturedImage}}
+               {{#featuredImage}}
+                  {{#if url}}
+                     <a href="{{../url}}" class="feed-list__image">
+                        <img src="{{url}}" {{#if @config.site.responsiveImages}}{{responsiveImageAttributes 'featuredImage' srcset.feed sizes.feed}}{{/if}} {{ lazyload "lazy" }} height="{{height}}" width="{{width}}" alt="{{alt}}">
+                     </a>
+                  {{/if}}
+               {{/featuredImage}}
+            {{/if}}
+            <div class="feed-list__content">
+               {{#if tags}}
+               {{#each tags}}
+               {{#if @first}}<a href="{{url}}" class="feed-list__tag">{{name}}</a>{{/if}}
+               {{/each}}
+               {{/if}}
+               <h2 class="feed-list__title"><a href="{{url}}">{{title}}</a></h2>
+               {{#if hasCustomExcerpt}}
+                  <p class="feed-list__excerpt">{{{ excerpt }}}</p>
+               {{else}}
+                  <p class="feed-list__excerpt">{{{ excerpt }}}</p>
+               {{/if}}
+               <div class="feed-list__meta">
                   {{#author}}
-                     {{#if @config.custom.feedAvatar}}{{#if avatar}}<img src="{{avatarImage.url}}" {{ lazyload "lazy" }} height="{{avatarImage.height}}" width="{{avatarImage.width}}" class="feed__author-thumb" alt="">{{/if}}{{/if}}
-                     {{#if @config.custom.feedAuthor}}<a href="{{url}}" class="feed__author">{{name}}</a>{{/if}}
+                     {{#if @config.custom.feedAvatar}}{{#if avatar}}<img src="{{avatarImage.url}}" {{ lazyload "lazy" }} height="{{avatarImage.height}}" width="{{avatarImage.width}}" alt="">{{/if}}{{/if}}
+                     {{#if @config.custom.feedAuthor}}<a href="{{url}}">{{name}}</a>{{/if}}
                   {{/author}}
                   {{#if @config.custom.feedDate}}
                      {{#checkIf @config.custom.feedDateType '==' "published"}}
-                        <time datetime="{{date createdAt 'YYYY-MM-DDTHH:mm'}}" class="feed__date">{{#checkIf @config.custom.formatDate '!=' 'custom'}}{{date createdAt @config.custom.formatDate}}{{else}}{{date createdAt @config.custom.formatDateCustom}}{{/checkIf}}</time>
+                        <span>&bull;</span>
+                        <time datetime="{{date createdAt 'YYYY-MM-DDTHH:mm'}}">{{#checkIf @config.custom.formatDate '!=' 'custom'}}{{date createdAt @config.custom.formatDate}}{{else}}{{date createdAt @config.custom.formatDateCustom}}{{/checkIf}}</time>
                      {{/checkIf}}
                      {{#checkIf @config.custom.feedDateType '==' "modified"}}
-                        <time datetime="{{date modifiedAt 'YYYY-MM-DDTHH:mm'}}" class="feed__date">{{#checkIf @config.custom.formatDate '!=' 'custom'}}{{date modifiedAt @config.custom.formatDate}}{{else}}{{date modifiedAt @config.custom.formatDateCustom}}{{/checkIf}}</time>
+                        <span>&bull;</span>
+                        <time datetime="{{date modifiedAt 'YYYY-MM-DDTHH:mm'}}">{{#checkIf @config.custom.formatDate '!=' 'custom'}}{{date modifiedAt @config.custom.formatDate}}{{else}}{{date modifiedAt @config.custom.formatDateCustom}}{{/checkIf}}</time>
                      {{/checkIf}}
                   {{/if}}
                </div>
-               {{#if @config.custom.feedtReadMore}}<a href="{{url}}" class="readmore feed__readmore btn btn--primary">{{ translate 'post.readMore' }} &rarr;</a>{{/if}}
+               {{#if @config.custom.feedtReadMore}}
+               <a href="{{url}}" class="feed-list__readmore">{{ translate 'post.readMore' }} &rarr;</a>
+               {{/if}}
             </div>
          </article>
-         {{/if}}
+         {{/checkIf}}
          {{/each}}
-         {{/if}}
-
-         {{#if @config.custom.adsenseInFeed}}
-         <div class="ad-container ad-container--infeed" aria-label="Advertisement">
-            <span class="ad-label">Advertisement</span>
-            <div class="ad-slot ad-slot--infeed">{{{@config.custom.adsenseInFeed}}}</div>
-         </div>
-         {{/if}}
-
-         <div class="feed feed--grid">
-            {{#each posts}}
-            {{#unless @first}}
-            <article class="feed__item {{#checkIf @config.custom.alignFeed '==' "center"}}feed__item--centered{{/checkIf}}">
-               {{#if @config.custom.feedFeaturedImage}}
-                  {{#featuredImage}}
-                     {{#if url}}
-                        <figure class="feed__image">
-                           <a href="{{../url}}">
-                              <img src="{{url}}" {{#if @config.site.responsiveImages}}{{responsiveImageAttributes 'featuredImage' srcset.feed sizes.feed}}{{/if}} {{ lazyload "lazy" }} height="{{height}}" width="{{width}}" alt="{{alt}}">
-                           </a>
-                        </figure>
-                     {{/if}}
-                  {{/featuredImage}}
-               {{/if}}
-               <div class="feed__content">
-                  {{#if tags}}<div class="feed__tags">{{#each tags}}<a href="{{url}}" class="feed__tag-badge">{{name}}</a>{{/each}}</div>{{/if}}
-                  <header>
-                     {{#checkIfAny @config.custom.feedAvatar @config.custom.feedAuthor @config.custom.feedDate}}
-                        <div class="feed__meta">
-                           {{#author}}
-                              {{#if @config.custom.feedAvatar}}{{#if avatar}}{{#if @config.custom.feedAuthor}}<img src="{{avatarImage.url}}" {{ lazyload "lazy" }} height="{{avatarImage.height}}" width="{{avatarImage.width}}" class="feed__author-thumb" alt="">{{else}}<a href="{{url}}" class="feed__author-link"><img src="{{avatarImage.url}}" {{ lazyload "lazy" }} height="{{avatarImage.height}}" width="{{avatarImage.width}}" class="feed__author-thumb" alt="{{avatarImage.alt}}"></a>{{/if}}{{/if}}{{/if}}
-                              {{#if @config.custom.feedAuthor}}<a href="{{url}}" class="feed__author">{{name}}</a>{{/if}}
-                           {{/author}}
-                           {{#if @config.custom.feedDate}}
-                              {{#checkIf @config.custom.feedDateType '==' "published"}}
-                                 <time datetime="{{date createdAt 'YYYY-MM-DDTHH:mm'}}" class="feed__date">{{#checkIf @config.custom.formatDate '!=' 'custom'}}{{date createdAt @config.custom.formatDate}}{{else}}{{date createdAt @config.custom.formatDateCustom}}{{/checkIf}}</time>
-                              {{/checkIf}}
-                              {{#checkIf @config.custom.feedDateType '==' "modified"}}
-                                 <time datetime="{{date modifiedAt 'YYYY-MM-DDTHH:mm'}}" class="feed__date">{{#checkIf @config.custom.formatDate '!=' 'custom'}}{{date modifiedAt @config.custom.formatDate}}{{else}}{{date modifiedAt @config.custom.formatDateCustom}}{{/checkIf}}</time>
-                              {{/checkIf}}
-                           {{/if}}
-                        </div>
-                     {{/checkIfAny}}
-                     <h2 class="feed__title"><a href="{{url}}">{{title}}</a></h2>
-                  </header>
-                  {{#if hasCustomExcerpt}}{{{ excerpt }}}{{else}}<p>{{{ excerpt }}}</p>{{/if}}
-                  {{#if @config.custom.feedtReadMore}}<a href="{{url}}" class="readmore feed__readmore">{{ translate 'post.readMore' }} &rarr;</a>{{/if}}
-               </div>
-            </article>
-            {{/unless}}
-            {{/each}}
-         </div>
-
-         {{> pagination}}
       </div>
 
-      <aside class="feed-sidebar">
-         {{#if @config.custom.adsenseSidebar}}
-         <div class="ad-container ad-container--sidebar" aria-label="Advertisement">
-            <span class="ad-label">Advertisement</span>
-            <div class="ad-slot ad-slot--sidebar">{{{@config.custom.adsenseSidebar}}}</div>
-         </div>
-         {{/if}}
-         {{#if @config.custom.sidebarAbout}}
-         <div class="sidebar-widget sidebar-widget--about">
-            <h3 class="sidebar-widget__title">About</h3>
-            <div class="sidebar-widget__content">{{{@config.custom.sidebarAbout}}}</div>
-         </div>
-         {{/if}}
-         {{#if @config.custom.adsenseSidebar2}}
-         <div class="ad-container ad-container--sidebar" aria-label="Advertisement">
-            <span class="ad-label">Advertisement</span>
-            <div class="ad-slot ad-slot--sidebar">{{{@config.custom.adsenseSidebar2}}}</div>
-         </div>
-         {{/if}}
-      </aside>
+      {{> pagination}}
    </div>
 
    {{#if @config.custom.adsenseBottomBanner}}
